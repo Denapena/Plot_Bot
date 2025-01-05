@@ -1,4 +1,4 @@
-# Plot-Bot
+# Plot Bot
 Streamlit app for plotting football actions integrated with Gemini AI for better interpretation. It is a simple app that uses available Hudl Statsbomb data to create selected match shots/goals and passes/assist plots and makes a short interpretation of the plots using Gemini AI.
 
 ## Main tools used
