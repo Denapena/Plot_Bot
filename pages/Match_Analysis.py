@@ -7,7 +7,7 @@ import google.generativeai as genai
 import utils.helpers as hp
 
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 parser = Sbopen(dataframe=True)
 
@@ -28,20 +28,20 @@ def load_matches(competition_id, season_id):
 
 try:
     competition = load_competition_data()
-    competition_name = st.selectbox("Select Competition:", competition['competition_name'].unique())
+    competition_name = st.selectbox("Select Competition:", competition["competition_name"].unique())
 
-    seasons = competition[competition['competition_name'] == competition_name]
-    selected_season = st.selectbox("Select Season:", seasons['season_name'].unique())
+    seasons = competition[competition["competition_name"] == competition_name]
+    selected_season = st.selectbox("Select Season:", seasons["season_name"].unique())
 
-    exact_season = seasons[seasons['season_name'] == selected_season]
-    competition_id = exact_season['competition_id'].iloc[0]
-    season_id = exact_season['season_id'].iloc[0]
+    exact_season = seasons[seasons["season_name"] == selected_season]
+    competition_id = exact_season["competition_id"].iloc[0]
+    season_id = exact_season["season_id"].iloc[0]
 
     matches = load_matches(competition_id, season_id)
 
-    team1 = st.selectbox("Select Home Team:", matches['home_team_name'].unique())
+    team1 = st.selectbox("Select Home Team:", matches["home_team_name"].unique())
 
-    team2_options = [team for team in matches['away_team_name'].unique() if team != team1]
+    team2_options = [team for team in matches["away_team_name"].unique() if team != team1]
     team2 = st.selectbox("Select Away Team:", team2_options)
 
     plot_type = st.selectbox("Select Plot Type:", ["Passes/Assists", "Shots/Goals"])
@@ -53,27 +53,27 @@ try:
     st.write(f"Competition: {competition_name}, Season: {selected_season}")
 
     match_data = matches[
-        (matches['home_team_name'] == home_team) & (matches['away_team_name'] == away_team)
+        (matches["home_team_name"] == home_team) & (matches["away_team_name"] == away_team)
     ]
 
     if not match_data.empty:
-        match_id = match_data['match_id'].iloc[0]
+        match_id = match_data["match_id"].iloc[0]
         st.write("Match found!")
         st.write(f"Match ID: {match_id}")
         st.write(match_data)
 
-        match_details = match_data.loc[match_data['match_id'] == match_id, 
-                                    ['home_score', 'away_score', 
-                                     'home_team_managers_nickname', 
-                                     'away_team_managers_nickname', 
-                                     'stadium_name']]
+        match_details = match_data.loc[match_data["match_id"] == match_id, 
+                                    ["home_score", "away_score", 
+                                     "home_team_managers_nickname", 
+                                     "away_team_managers_nickname", 
+                                     "stadium_name"]]
         
         if not match_details.empty:
-            home_score = match_details['home_score'].iloc[0]
-            away_score = match_details['away_score'].iloc[0]
-            home_manager = match_details['home_team_managers_nickname'].iloc[0]
-            away_manager = match_details['away_team_managers_nickname'].iloc[0]
-            stadium_name = match_details['stadium_name'].iloc[0]
+            home_score = match_details["home_score"].iloc[0]
+            away_score = match_details["away_score"].iloc[0]
+            home_manager = match_details["home_team_managers_nickname"].iloc[0]
+            away_manager = match_details["away_team_managers_nickname"].iloc[0]
+            stadium_name = match_details["stadium_name"].iloc[0]
 
         df_event, df_related, df_freeze, df_tactics = parser.event(match_id)
 
