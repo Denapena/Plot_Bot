@@ -5,13 +5,13 @@ def get_ai_interpretation(plot_type, team, opponent, df,home_score, away_score, 
     model = genai.GenerativeModel(st.secrets["GEMINI_CHAT_MODEL"])
     
     if plot_type == "Passes/Assists":
-        df = df[df["team_name"] == team]
+        df1 = df[df["team_name"] == team]
 
-        total_shots = len(df[df["type_name"] == "Shot"])
-        total_passes = len(df[df["type_name"] == "Pass"])
-        successful_passes = len(df[(df["type_name"] == "Pass") & (~df["outcome_name"].isin(["Incomplete", "Out", "Unknown", "Pass Offside"]))])
-        passes_into_box = len(df[(df["type_name"] == "Pass") & (df["end_y"] > 18) & (df["end_y"] < 62) & (df["end_x"] > 102)])
-        assists = len(df[(df["type_name"] == "Pass") & (df["pass_goal_assist"] == True)])
+        total_shots = len(df1[df1["type_name"] == "Shot"])
+        total_passes = len(df1[df1["type_name"] == "Pass"])
+        successful_passes = len(df1[(df["type_name"] == "Pass") & (~df1["outcome_name"].isin(["Incomplete", "Out", "Unknown", "Pass Offside"]))])
+        passes_into_box = len(df1[(df1["type_name"] == "Pass") & (df1["end_y"] > 18) & (df1["end_y"] < 62) & (df1["end_x"] > 102)])
+        assists = len(df1[(df1["type_name"] == "Pass") & (df1["pass_goal_assist"] == True)])
 
         df2 = df[df["team_name"] == opponent]
 
